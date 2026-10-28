@@ -20,13 +20,13 @@ def load_graph(path=NPZ_PATH):
     )
 
 
-def make_masks(data, train=0.6, val=0.2, seed=42):
+def make_masks(data, train=0.1, val=0.1, seed=42):
     """Stratified random node split (transductive setting)."""
     idx = np.arange(data.num_nodes) # list of node numbers; 0 to 
     y = data.y.numpy()
 
 
-    train_idx, rest = train_test_split(idx, train_size=train, stratify=y, random_state=seed) # take 60% of nodes for training, keep the other 40% in rest.
+    train_idx, rest = train_test_split(idx, train_size=train, stratify=y, random_state=seed) # take 10% of nodes for training, keep the other 90% in rest.
 
     val_idx, test_idx = train_test_split( # split rest in half into validation and test (20% of all nodes each)
         rest, train_size=val / (1 - train), stratify=y[rest], random_state=seed
