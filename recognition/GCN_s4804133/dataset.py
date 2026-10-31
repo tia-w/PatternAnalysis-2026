@@ -2,6 +2,7 @@ import numpy as np
 import torch
 from torch_geometric.data import Data
 from sklearn.model_selection import train_test_split
+from torch_geometric.utils import remove_self_loops
 
 NPZ_PATH = "data/FacebookPagePage/raw/facebook.npz"
 CLASS_NAMES = ["tvshow", "government", "company", "politician"]
@@ -12,6 +13,7 @@ def load_graph(path=NPZ_PATH):
     npz = np.load(path, allow_pickle=True) # load npz archive
 
     edge_index = torch.tensor(np.vstack([npz["edges_x"], npz["edges_y"]]), dtype=torch.long)  # format edge components into 2xN edge index
+    edge_index, _ = remove_self_loops(edge_index) # drop existing self-loops; GCNLayer adds exactly one per node
 
     return Data( # build and return the primary PyG Data object
         x=torch.tensor(npz["X"], dtype=torch.float32), # each row represents a fb page
