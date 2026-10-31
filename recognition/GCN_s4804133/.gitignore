@@ -1,1 +1,5 @@
 data/
+*.pt
+*.pth
+outputs/
+.DS_Store
